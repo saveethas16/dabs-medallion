@@ -38,7 +38,7 @@ targets:
   prod:
     mode: production
     workspace:
-      host: https://YOUR_PROD_WORKSPACE.cloud.databricks.com
+      host: https://dbc-608d8ada-4b50.cloud.databricks.com
     variables:
       catalog: prod_dabs
       bronze_schema: bronze
