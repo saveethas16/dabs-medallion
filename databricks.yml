@@ -1,0 +1,49 @@
+bundle:
+  name: medallion_project
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: "Unity Catalog name"
+  bronze_schema:
+    description: "Bronze schema name"
+  silver_schema:
+    description: "Silver schema name"
+  gold_schema:
+    description: "Gold schema name"
+  volume_schema:
+    description: "Schema where volume is created"
+  volume_name:
+    description: "Volume name"
+  file_name:
+    description: "Source CSV file name"
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-9b94c6fd-88eb.cloud.databricks.com
+    variables:
+      catalog: dev_dabs
+      bronze_schema: bronze
+      silver_schema: silver
+      gold_schema: gold
+      volume_schema: data
+      volume_name: dev_dabsvol
+      file_name: orders.csv
+
+  prod:
+    mode: production
+    workspace:
+      host: https://YOUR_PROD_WORKSPACE.cloud.databricks.com
+    variables:
+      catalog: prod_dabs
+      bronze_schema: bronze
+      silver_schema: silver
+      gold_schema: gold
+      volume_schema: data
+      volume_name: prod_dabsvol
+      file_name: orders.csv

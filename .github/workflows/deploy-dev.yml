@@ -1,0 +1,54 @@
+name: Deploy to Dev
+
+on:
+  push:
+    branches:
+      - dev          # ← triggers when PR merged to dev branch
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install pytest pyspark==3.5.0 delta-spark==3.0.0
+
+      - name: Run tests
+        run: |
+          pytest tests/ -v --tb=short
+
+  deploy-dev:
+    name: Deploy to Dev Workspace
+    runs-on: ubuntu-latest
+    needs: test
+    environment: dev
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Configure Databricks CLI
+        run: |
+          cat <<EOF > ~/.databrickscfg
+          [DEV]
+          host  = ${{ secrets.DEV_DATABRICKS_HOST }}
+          token = ${{ secrets.DEV_DATABRICKS_TOKEN }}
+          EOF
+
+      - name: Validate Bundle
+        run: databricks bundle validate --profile DEV
+
+      - name: Deploy to Dev
+        run: databricks bundle deploy --profile DEV
