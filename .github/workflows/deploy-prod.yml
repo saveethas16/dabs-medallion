@@ -3,7 +3,7 @@ name: Deploy to Prod
 on:
   push:
     branches:
-      - release      # ← triggers when PR merged to release branch
+      - main
 
 jobs:
   test:
@@ -18,11 +18,19 @@ jobs:
         with:
           python-version: "3.10"
 
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: "11"
+          distribution: "temurin"
+
       - name: Install dependencies
         run: |
           pip install pytest pyspark==3.5.0 delta-spark==3.0.0
 
       - name: Run tests
+        env:
+          PYSPARK_SUBMIT_ARGS: "--packages io.delta:delta-spark_2.12:3.0.0 pyspark-shell"
         run: |
           pytest tests/ -v --tb=short
 
