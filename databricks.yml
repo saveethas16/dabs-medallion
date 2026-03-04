@@ -39,6 +39,7 @@ targets:
     mode: production
     workspace:
       host: https://dbc-608d8ada-4b50.cloud.databricks.com
+      root_path: /Workspace/Users/saveethashanmugam16@gmail.com/.bundle/${bundle.name}/${bundle.target}
     variables:
       catalog: prod_dabs
       bronze_schema: bronze
