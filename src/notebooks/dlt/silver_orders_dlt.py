@@ -12,6 +12,8 @@ from pyspark.sql.functions import (
     when, lit, current_timestamp
 )
 
+catalog           = spark.conf.get("catalog")
+dlt_bronze_schema = spark.conf.get("dlt_bronze_schema")
 dlt_silver_schema = spark.conf.get("dlt_silver_schema")
 
 # COMMAND ----------
@@ -20,14 +22,13 @@ dlt_silver_schema = spark.conf.get("dlt_silver_schema")
 @dlt.expect_or_drop("valid_customer_id", "customer_id IS NOT NULL")
 @dlt.expect_or_drop("valid_product_id",  "product_id IS NOT NULL")
 @dlt.table(
-    name="silver_orders",
-    schema=dlt_silver_schema,
+    name=f"{catalog}.{dlt_silver_schema}.silver_orders",
     comment="Cleansed and validated orders - DLT pipeline",
     table_properties={"quality": "silver"}
 )
 def silver_orders():
     return (
-        dlt.read("bronze_orders")
+        dlt.read(f"{catalog}.{dlt_bronze_schema}.bronze_orders")
         .dropDuplicates(["order_id"])
         .withColumn("amount",         when(col("amount").isNull(),        lit(0.0)).otherwise(col("amount").cast("double")))
         .withColumn("customer_name",  when(col("customer_name").isNull(), lit("Unknown")).otherwise(col("customer_name")))

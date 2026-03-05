@@ -9,17 +9,16 @@
 import dlt
 from pyspark.sql.functions import current_timestamp
 
-catalog       = spark.conf.get("catalog")
-volume_schema = spark.conf.get("volume_schema")
-volume_name   = spark.conf.get("volume_name")
-file_name     = spark.conf.get("file_name")
+catalog           = spark.conf.get("catalog")
+volume_schema     = spark.conf.get("volume_schema")
+volume_name       = spark.conf.get("volume_name")
+file_name         = spark.conf.get("file_name")
 dlt_bronze_schema = spark.conf.get("dlt_bronze_schema")
 
 # COMMAND ----------
 
 @dlt.table(
-    name="bronze_orders",
-    schema=dlt_bronze_schema,
+    name=f"{catalog}.{dlt_bronze_schema}.bronze_orders",
     comment="Raw ingested orders - DLT pipeline",
     table_properties={"quality": "bronze"}
 )
