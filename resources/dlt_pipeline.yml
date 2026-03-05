@@ -3,7 +3,7 @@ resources:
     orders_dlt_pipeline:
       name: ${var.dlt_pipeline_name}
       catalog: ${var.catalog}
-      target: ${var.dlt_silver_schema}    # ← add this back
+      target: ${var.dlt_silver_schema}    
       continuous: false
       channel: "CURRENT"
       serverless: true

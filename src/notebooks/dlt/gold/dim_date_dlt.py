@@ -3,7 +3,6 @@
 # COMMAND ----------
 # MAGIC %md
 # MAGIC # Gold Layer - DLT dim_date
-# MAGIC Date dimension table generated from order dates in silver_orders.
 
 # COMMAND ----------
 
@@ -13,20 +12,21 @@ from pyspark.sql.functions import (
     dayofweek, weekofyear, date_format, current_timestamp
 )
 
-dlt_gold_schema = spark.conf.get("dlt_gold_schema")
+catalog           = spark.conf.get("catalog")
+dlt_silver_schema = spark.conf.get("dlt_silver_schema")
+dlt_gold_schema   = spark.conf.get("dlt_gold_schema")
 
 # COMMAND ----------
 
 @dlt.expect_or_drop("valid_order_date", "order_date IS NOT NULL")
 @dlt.table(
-    name="dim_date",
-    schema=dlt_gold_schema,
+    name=f"{catalog}.{dlt_gold_schema}.dim_date",
     comment="Date dimension table generated from order dates - DLT pipeline",
     table_properties={"quality": "gold"}
 )
 def dim_date():
     return (
-        dlt.read("silver_orders")
+        dlt.read(f"{catalog}.{dlt_silver_schema}.silver_orders")
         .select("order_date").distinct()
         .withColumn("year",         year(col("order_date")))
         .withColumn("month",        month(col("order_date")))
