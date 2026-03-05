@@ -6,9 +6,7 @@ resources:
       target: ${var.dlt_silver_schema}    # ← add this back
       continuous: false
       channel: "CURRENT"
-      clusters:
-        - label: default
-          num_workers: 2
+      serverless: true
       libraries:
         - notebook:
             path: ../src/notebooks/dlt/bronze_orders_dlt.py
