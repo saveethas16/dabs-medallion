@@ -10,17 +10,17 @@ resources:
           num_workers: 2
       libraries:
         - notebook:
-            path: ./src/notebooks/dlt/bronze_orders_dlt.py
+            path: ../src/notebooks/dlt/bronze_orders_dlt.py
         - notebook:
-            path: ./src/notebooks/dlt/silver_orders_dlt.py
+            path: ../src/notebooks/dlt/silver_orders_dlt.py
         - notebook:
-            path: ./src/notebooks/dlt/gold/dim_customer_dlt.py
+            path: ../src/notebooks/dlt/gold/dim_customer_dlt.py
         - notebook:
-            path: ./src/notebooks/dlt/gold/dim_date_dlt.py
+            path: ../src/notebooks/dlt/gold/dim_date_dlt.py
         - notebook:
-            path: ./src/notebooks/dlt/gold/dim_product_dlt.py
+            path: ../src/notebooks/dlt/gold/dim_product_dlt.py
         - notebook:
-            path: ./src/notebooks/dlt/gold/fact_sales_dlt.py
+            path: ../src/notebooks/dlt/gold/fact_sales_dlt.py
       configuration:
         catalog:           ${var.catalog}
         volume_schema:     ${var.volume_schema}
