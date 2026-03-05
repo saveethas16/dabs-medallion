@@ -1,0 +1,31 @@
+resources:
+  pipelines:
+    orders_dlt_pipeline:
+      name: ${var.dlt_pipeline_name}
+      catalog: ${var.catalog}
+      continuous: false
+      channel: "CURRENT"
+      clusters:
+        - label: default
+          num_workers: 2
+      libraries:
+        - notebook:
+            path: ./src/notebooks/dlt/bronze_orders_dlt.py
+        - notebook:
+            path: ./src/notebooks/dlt/silver_orders_dlt.py
+        - notebook:
+            path: ./src/notebooks/dlt/gold/dim_customer_dlt.py
+        - notebook:
+            path: ./src/notebooks/dlt/gold/dim_date_dlt.py
+        - notebook:
+            path: ./src/notebooks/dlt/gold/dim_product_dlt.py
+        - notebook:
+            path: ./src/notebooks/dlt/gold/fact_sales_dlt.py
+      configuration:
+        catalog:           ${var.catalog}
+        volume_schema:     ${var.volume_schema}
+        volume_name:       ${var.volume_name}
+        file_name:         ${var.file_name}
+        dlt_bronze_schema: ${var.dlt_bronze_schema}
+        dlt_silver_schema: ${var.dlt_silver_schema}
+        dlt_gold_schema:   ${var.dlt_gold_schema}

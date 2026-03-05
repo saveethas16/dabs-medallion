@@ -19,6 +19,14 @@ variables:
     description: "Volume name"
   file_name:
     description: "Source CSV file name"
+  dlt_pipeline_name:
+    description: "DLT Pipeline name"
+  dlt_bronze_schema:
+    description: "DLT Bronze schema name"
+  dlt_silver_schema:
+    description: "DLT Silver schema name"
+  dlt_gold_schema:
+    description: "DLT Gold schema name"
 
 targets:
   dev:
@@ -34,6 +42,10 @@ targets:
       volume_schema: data
       volume_name: dev_dabsvol
       file_name: orders.csv
+      dlt_pipeline_name: "Orders DLT Pipeline - Dev"
+      dlt_bronze_schema: dlt_bronze
+      dlt_silver_schema: dlt_silver
+      dlt_gold_schema: dlt_gold
 
   prod:
     mode: production
@@ -48,3 +60,7 @@ targets:
       volume_schema: data
       volume_name: prod_dabsvol
       file_name: orders.csv
+      dlt_pipeline_name: "Orders DLT Pipeline - Prod"
+      dlt_bronze_schema: dlt_bronze
+      dlt_silver_schema: dlt_silver
+      dlt_gold_schema: dlt_gold
