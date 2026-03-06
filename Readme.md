@@ -14,6 +14,3 @@ Bronze → Silver → Gold (fact + dim tables)
 ## CI/CD Flow
 - Feature branch → PR to dev → tests run → approved → deploy to dev
 - dev → PR to release → approved → deploy to prod
-
-## Test
-Testing GitHub Actions CI/CD flow
