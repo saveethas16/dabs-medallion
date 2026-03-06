@@ -34,6 +34,7 @@ targets:
     default: true
     workspace:
       host: https://dbc-9b94c6fd-88eb.cloud.databricks.com
+      root_path: /Workspace/.bundle/${bundle.name}/${bundle.target}
     variables:
       catalog: dev_dabs
       bronze_schema: bronze
